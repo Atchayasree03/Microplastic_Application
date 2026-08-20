@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MicroPlastic AI – Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="min-h-screen page-enter" style="background:var(--background);">
+
+    <!-- Navigation -->
+    <header class="nav-header">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-icon"><svg class="icon icon-base" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2s2.7.5 3.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2s2.7.5 3.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2s2.7.5 3.5 1"/></svg></div>
+          <div class="nav-logo-text"><span class="logo-title">MicroPlastic AI</span><span class="logo-subtitle">Detection Platform</span></div>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link"><svg class="icon icon-md" viewBox="0 0 24 24"><path d="M12 16v5"/><path d="M16 14v7"/><path d="M20 10v11"/><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><circle cx="12" cy="8" r="2"/></svg> Dashboard <span class="nav-active-dot"></span></a>
+          <a href="live.html" class="nav-link"><svg class="icon icon-md" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Live Detection <span class="nav-active-dot"></span></a>
+          <a href="upload.html" class="nav-link"><svg class="icon icon-md" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload <span class="nav-active-dot"></span></a>
+          <a href="analytics.html" class="nav-link active"><svg class="icon icon-md" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> Analytics <span class="nav-active-dot"></span></a>
+          <a href="reports.html" class="nav-link"><svg class="icon icon-md" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg> Reports <span class="nav-active-dot"></span></a>
+        </nav>
+        <div class="nav-right">
+          <div class="nav-status"><span class="status-dot"></span><span class="status-text">System Online</span></div>
+          <button class="nav-icon-btn"><svg class="icon icon-base" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="alert-dot"></span></button>
+          <button class="nav-icon-btn"><svg class="icon icon-base" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <div class="nav-avatar">RA</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div style="padding-top:4rem;padding-left:1.5rem;padding-right:1.5rem;padding-bottom:1.5rem;max-width:72rem;margin:0 auto;">
+      <div style="padding:1.25rem 0;">
+        <h1 style="font-size:1.125rem;font-weight:600;color:var(--foreground)">Analytics</h1>
+        <p style="font-size:0.75rem;color:var(--muted-foreground);margin-top:0.125rem;">Historical trends and contamination pattern analysis</p>
+      </div>
+
+      <!-- KPI Row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem;">
+        <div class="card-ocean" style="padding:1.25rem;">
+          <p class="metric-label">Avg Contamination</p>
+          <p style="font-size:1.5rem;font-weight:700;color:var(--foreground);margin-top:0.5rem;" id="kpiAvgContam">—</p>
+          <p style="font-size:11px;margin-top:0.375rem;color:var(--muted-foreground);" id="kpiAvgSub">from detection sessions</p>
+        </div>
+        <div class="card-ocean" style="padding:1.25rem;">
+          <p class="metric-label">Total Detections</p>
+          <p style="font-size:1.5rem;font-weight:700;color:var(--foreground);margin-top:0.5rem;" id="kpiTotalDet">—</p>
+          <p style="font-size:11px;margin-top:0.375rem;color:var(--muted-foreground);" id="kpiTotalSub">across all sessions</p>
+        </div>
+        <div class="card-ocean" style="padding:1.25rem;">
+          <p class="metric-label">Peak Contamination</p>
+          <p style="font-size:1.5rem;font-weight:700;color:var(--foreground);margin-top:0.5rem;" id="kpiPeakContam">—</p>
+          <p style="font-size:11px;margin-top:0.375rem;color:var(--muted-foreground);" id="kpiPeakSub">highest recorded</p>
+        </div>
+        <div class="card-ocean" style="padding:1.25rem;">
+          <p class="metric-label">Map Zones</p>
+          <p style="font-size:1.5rem;font-weight:700;color:var(--foreground);margin-top:0.5rem;" id="kpiZones">—</p>
+          <p style="font-size:11px;margin-top:0.375rem;color:var(--muted-foreground);" id="kpiZonesSub">marked on map</p>
+        </div>
+      </div>
+
+      <!-- Top charts row -->
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:1rem;margin-bottom:1rem;">
+        <!-- Session Trend -->
+        <div class="card-ocean" style="padding:1.25rem;">
+          <h3 style="font-size:0.75rem;font-weight:600;color:var(--foreground);margin-bottom:1rem;">Session Contamination Trend</h3>
+          <div style="height:200px;"><canvas id="monthlyTrendChart"></canvas></div>
+        </div>
+        <!-- Zone Risk Distribution -->
+        <div class="card-ocean" style="padding:1.25rem;">
+          <h3 style="font-size:0.75rem;font-weight:600;color:var(--foreground);margin-bottom:1rem;">Zone Risk Distribution</h3>
+          <div style="height:160px;"><canvas id="pieChart"></canvas></div>
+          <div style="display:flex;flex-direction:column;gap:0.375rem;margin-top:0.25rem;" id="pieLegend"></div>
+        </div>
+      </div>
+
+      <!-- Bottom charts row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <!-- Zone Contamination Comparison -->
+        <div class="card-ocean" style="padding:1.25rem;">
+          <h3 style="font-size:0.75rem;font-weight:600;color:var(--foreground);margin-bottom:1rem;">Zone Contamination Levels</h3>
+          <div style="height:180px;"><canvas id="zoneChart"></canvas></div>
+        </div>
+        <!-- Session Detection Count -->
+        <div class="card-ocean" style="padding:1.25rem;">
+          <h3 style="font-size:0.75rem;font-weight:600;color:var(--foreground);margin-bottom:1rem;">Detections Per Session</h3>
+          <div style="height:180px;"><canvas id="particleBarChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- No Data Banner -->
+      <div class="card-ocean" style="padding:2rem;text-align:center;margin-top:1rem;display:none;" id="noDataBanner">
+        <svg class="icon" style="width:40px;height:40px;color:var(--muted-foreground);opacity:0.4;margin:0 auto;" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+        <p style="font-size:0.875rem;color:var(--muted-foreground);margin-top:0.75rem;">No detection data yet. Run a live detection session or add zones on the map to see analytics.</p>
+        <div style="display:flex;gap:0.5rem;justify-content:center;margin-top:1rem;">
+          <a href="live.html" class="btn-ocean-solid" style="font-size:0.75rem;text-decoration:none;">Start Live Detection</a>
+          <a href="index.html" class="btn-ocean" style="font-size:0.75rem;text-decoration:none;">Go to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot -->
+  <button class="chatbot-btn closed" id="chatbotBtn" onclick="toggleChat()">
+    <svg class="icon icon-lg" viewBox="0 0 24 24" id="chatbotIcon" style="color:#fff"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+  </button>
+  <div class="chat-panel" id="chatPanel" style="display:none;">
+    <div class="chat-header">
+      <div class="chat-header-icon"><svg class="icon icon-base" style="color:var(--primary)" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+      <div style="flex:1;"><p style="font-size:0.875rem;font-weight:600;color:var(--foreground)">Research Assistant</p><p style="font-size:10px;display:flex;align-items:center;gap:0.25rem;color:#15803d"><span style="width:6px;height:6px;border-radius:9999px;background:var(--success);display:inline-block;"></span> Online</p></div>
+      <button onclick="toggleChat()" style="padding:0.25rem;color:var(--muted-foreground);background:none;border:none;cursor:pointer;"><svg class="icon icon-md" viewBox="0 0 24 24"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+    </div>
+    <div class="chat-messages scrollbar-ocean" id="chatMessages"></div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Ask about contamination data…" onkeydown="if(event.key==='Enter')sendMessage()">
+      <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()"><svg class="icon icon-md" style="color:var(--primary)" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+  <script>initAnalytics();</script>
+</body>
+</html>

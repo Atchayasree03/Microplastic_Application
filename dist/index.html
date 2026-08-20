@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MicroPlastic AI – Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="dashboard-layout page-enter">
+
+    <!-- Navigation -->
+    <header class="nav-header">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="nav-logo-icon">
+            <svg class="icon icon-base" viewBox="0 0 24 24">
+              <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2s2.7.5 3.5 1" />
+              <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2s2.7.5 3.5 1" />
+              <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2s2.7.5 3.5 1" />
+            </svg>
+          </div>
+          <div class="nav-logo-text">
+            <span class="logo-title">OPTISENSE</span>
+            <span class="logo-subtitle">MICROPLASTIC Detection Platform</span>
+          </div>
+        </a>
+
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link active">
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <path d="M12 16v5" />
+              <path d="M16 14v7" />
+              <path d="M20 10v11" />
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+              <circle cx="12" cy="8" r="2" />
+            </svg>
+            Dashboard
+            <span class="nav-active-dot"></span>
+          </a>
+          <a href="live.html" class="nav-link">
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+            </svg>
+            Live Detection
+            <span class="nav-active-dot"></span>
+          </a>
+          <a href="upload.html" class="nav-link">
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            Upload
+            <span class="nav-active-dot"></span>
+          </a>
+          <a href="analytics.html" class="nav-link">
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <path d="M3 3v18h18" />
+              <path d="M18 17V9" />
+              <path d="M13 17V5" />
+              <path d="M8 17v-3" />
+            </svg>
+            Analytics
+            <span class="nav-active-dot"></span>
+          </a>
+          <a href="reports.html" class="nav-link">
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <line x1="10" y1="9" x2="8" y2="9" />
+            </svg>
+            Reports
+            <span class="nav-active-dot"></span>
+          </a>
+        </nav>
+
+        <div class="nav-right">
+          <div class="nav-status">
+            <span class="status-dot"></span>
+            <span class="status-text">System Online</span>
+          </div>
+
+        </div>
+      </div>
+      <div class="nav-alert-bar" id="navAlertBar"></div>
+    </header>
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <div class="dashboard-header-left">
+        <h1>Environmental Monitoring Dashboard</h1>
+        <p>Real-time microplastic detection · Active session</p>
+      </div>
+      <div class="dashboard-header-right">
+        <div class="env-stats">
+          <span class="env-stat">
+            <svg class="icon icon-sm" viewBox="0 0 24 24">
+              <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
+            </svg>
+            <span id="envTemp">—</span>°C
+          </span>
+          <span class="env-stat">
+            <svg class="icon icon-sm" viewBox="0 0 24 24">
+              <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
+              <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
+              <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
+            </svg>
+            <span id="envWind">—</span> km/h
+          </span>
+          <span class="env-stat">
+            <svg class="icon icon-sm" viewBox="0 0 24 24">
+              <path
+                d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z" />
+            </svg>
+            pH <span id="envPh">—</span>
+          </span>
+        </div>
+        <div class="datetime-display">
+          <svg class="icon icon-sm" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          <span id="datetimeText"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert Banner (hidden by default) -->
+    <div class="alert-banner" id="alertBanner" style="display:none;">
+      <span class="alert-dot"></span>
+      <span class="alert-label">Alert:</span>
+      <span class="alert-message">Contamination level has exceeded the configured threshold. Logging initiated.</span>
+      <button class="alert-dismiss" onclick="dismissAlert()">Dismiss</button>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-grid">
+
+      <!-- Live Detection Panel — real camera -->
+      <div class="card-ocean live-panel" id="livePanel">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <h2 style="font-size:0.875rem;font-weight:600;color:var(--foreground)">Live Detection Feed</h2>
+            <span class="threshold-alert" id="thresholdAlert" style="display:none;">
+              <svg class="icon icon-sm" viewBox="0 0 24 24">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              Threshold Exceeded
+            </span>
+          </div>
+          <span id="severityBadge" class="badge-low">
+            <span style="width:6px;height:6px;border-radius:9999px;background:currentColor"></span>
+            <span id="severityText">Idle</span>
+          </span>
+        </div>
+
+        <!-- Camera Feed -->
+        <div class="camera-feed" id="cameraFeedContainer">
+          <div id="cameraPlaceholder" class="camera-placeholder">
+            <svg class="icon" style="width:40px;height:40px;color:var(--muted-foreground);opacity:0.4"
+              viewBox="0 0 24 24">
+              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+              <circle cx="12" cy="13" r="3" />
+            </svg>
+            <p style="font-size:0.7rem;color:var(--muted-foreground);margin-top:0.375rem;">Click Start Camera to begin
+            </p>
+          </div>
+          <video id="cameraVideo" autoplay playsinline muted
+            style="display:none;width:100%;height:100%;object-fit:contain;background:#000;"></video>
+          <canvas id="overlayCanvas"
+            style="display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+          <div id="liveBadge" class="live-badge" style="display:none;">
+            <span class="live-dot"></span>
+            <span>LIVE</span>
+            <span id="sessionTimer" style="margin-left:0.5rem;font-weight:400;opacity:0.8;">00:00</span>
+          </div>
+          <div id="inferenceTag" class="inference-tag" style="display:none;">
+            <span id="inferenceMs">0</span> ms
+          </div>
+        </div>
+
+        <!-- Camera controls -->
+        <div class="camera-controls">
+          <button class="btn-ocean-solid btn-start" id="startCameraBtn" onclick="startCamera()">
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            Start Camera
+          </button>
+          <button class="btn-ocean btn-stop" id="stopCameraBtn" onclick="stopCamera()" disabled>
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <rect x="6" y="6" width="12" height="12" rx="1" />
+            </svg>
+            Stop
+          </button>
+          <button class="btn-ocean" onclick="toggleThresholdModal()">
+            <svg class="icon icon-md" viewBox="0 0 24 24">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            Threshold
+          </button>
+        </div>
+
+        <!-- Metrics Row -->
+        <div class="metrics-row">
+          <div class="metric-card">
+            <div class="value colored animate-count-up" id="contaminationValue">0.0%</div>
+            <div class="label">Contamination</div>
+          </div>
+          <div class="metric-card">
+            <div class="value animate-count-up" id="confidenceValue">0.0%</div>
+            <div class="label">Confidence</div>
+          </div>
+          <div class="metric-card">
+            <div class="value animate-count-up" id="particleCountValue">0</div>
+            <div class="label">Particles</div>
+          </div>
+        </div>
+
+        <!-- Sparkline -->
+        <div class="sparkline-container">
+          <div class="sparkline-header">
+            <span class="sparkline-label">Live Trend</span>
+            <span class="trend-indicator" id="trendIndicator">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" id="trendIcon">
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              <span id="trendText" style="color:var(--muted-foreground)">Stable</span>
+            </span>
+          </div>
+          <canvas id="sparklineCanvas" class="sparkline-chart" height="36"></canvas>
+        </div>
+
+        <!-- Threshold Modal -->
+        <div class="threshold-modal" id="thresholdModal" style="display:none;">
+          <p style="font-size:0.75rem;color:var(--muted-foreground);margin-bottom:0.5rem;">Alert threshold (%)</p>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <input type="range" min="10" max="90" value="60" id="thresholdSlider"
+              style="flex:1;accent-color:var(--primary);">
+            <span style="font-size:0.875rem;font-weight:600;color:var(--primary);width:2.5rem;text-align:right;"
+              id="thresholdDisplay">60%</span>
+          </div>
+          <button class="btn-ocean-solid"
+            style="width:100%;margin-top:0.5rem;font-size:0.75rem;justify-content:center;padding:0.375rem 1rem;"
+            onclick="applyThreshold()">Apply</button>
+        </div>
+      </div>
+
+      <!-- Map Panel -->
+      <div class="card-ocean map-panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <h2 style="font-size:0.875rem;font-weight:600;color:var(--foreground)">Contamination Map</h2>
+          <span style="font-size:10px;color:var(--muted-foreground);" id="mapZoneCount">0 zones</span>
+        </div>
+
+        <!-- Leaflet map -->
+        <div class="map-container" id="mapContainer">
+          <div id="leafletMap" style="width:100%;height:100%;border-radius:inherit;z-index:1;"></div>
+        </div>
+
+        <!-- Add Zone Form -->
+        <form id="zoneForm" class="zone-form" autocomplete="off">
+          <div class="zone-form-row">
+            <input type="text" id="zfName" placeholder="Zone name" required class="zone-input" style="flex:2;">
+            <button type="button" class="btn-geo" id="btnGeolocate" title="Get my location">
+              <svg class="icon icon-sm" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 2v3" />
+                <path d="M12 19v3" />
+                <path d="M2 12h3" />
+                <path d="M19 12h3" />
+                <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5" />
+              </svg>
+            </button>
+          </div>
+          <div class="zone-form-row">
+            <input type="number" step="any" id="zfLat" placeholder="Latitude" required class="zone-input">
+            <input type="number" step="any" id="zfLng" placeholder="Longitude" required class="zone-input">
+          </div>
+          <div class="zone-form-row">
+            <select id="zfRisk" required class="zone-input">
+              <option value="">Risk Level</option>
+              <option value="low">Low</option>
+              <option value="moderate">Moderate</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+            <input type="number" min="0" max="100" id="zfPercent" placeholder="Contamination %" required
+              class="zone-input">
+          </div>
+          <button type="submit" class="btn-ocean-solid zone-submit-btn">
+            <svg class="icon icon-sm" viewBox="0 0 24 24">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+            Add Zone
+          </button>
+        </form>
+
+        <!-- Zone summary -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div class="metric-card">
+            <div class="value" style="font-size:0.875rem;" id="activeZoneCount">0</div>
+            <div class="label">Active Zones</div>
+          </div>
+          <div
+            style="border-radius:var(--radius);padding:0.5rem 0.75rem;text-align:center;border:1px solid var(--border);background:rgba(220,38,38,0.06);">
+            <div style="font-size:0.875rem;font-weight:700;color:var(--destructive);" id="criticalCount">0</div>
+            <div class="label">Critical</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Area Comparison Panel -->
+      <div class="card-ocean area-panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <h2 style="font-size:0.875rem;font-weight:600;color:var(--foreground)" id="areaTitle">Area Comparison</h2>
+          <button type="button" class="btn-clear-zones" id="btnClearZones" title="Clear all zones"
+            style="display:none;">
+            <svg class="icon icon-sm" viewBox="0 0 24 24">
+              <path d="M3 6h18" />
+              <path d="M8 6V4h8v2" />
+              <path d="M19 6l-1 14H6L5 6" />
+            </svg>
+            Clear All
+          </button>
+        </div>
+
+        <!-- Highest Risk -->
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          <div class="risk-card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+              <div>
+                <p class="metric-label">Highest Risk</p>
+                <p style="font-size:0.75rem;font-weight:600;color:var(--foreground);margin-top:0.125rem;line-height:1.25;"
+                  id="highestRiskName">—</p>
+              </div>
+              <svg class="icon icon-base" style="color:var(--destructive);flex-shrink:0;" viewBox="0 0 24 24">
+                <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <p style="font-size:1.125rem;font-weight:700;color:var(--destructive);margin-top:0.25rem;"
+              id="highestRiskValue">0%</p>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+            <div class="metric-card">
+              <p class="label">Avg. Level</p>
+              <p style="font-size:1.125rem;font-weight:700;color:var(--foreground);margin-top:0.25rem;" id="avgLevel">0%
+              </p>
+            </div>
+            <div class="metric-card">
+              <p class="label">Critical</p>
+              <p style="font-size:1.125rem;font-weight:700;color:var(--destructive);margin-top:0.25rem;"
+                id="criticalZones">0</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div
+          style="border-radius:var(--radius);padding:0.625rem;border:1px solid var(--border);background:var(--secondary);min-height:140px;">
+          <p class="metric-label" style="margin-bottom:0.5rem;">Contamination Levels</p>
+          <canvas id="areaBarChart" width="300" height="120" style="width:100%;height:120px;"></canvas>
+        </div>
+
+        <!-- Zone List -->
+        <div style="display:flex;flex-direction:column;gap:0.375rem;overflow-y:auto;max-height:220px;"
+          class="scrollbar-ocean">
+          <p class="metric-label">Marked Zones</p>
+          <div id="zoneTrendList">
+            <p style="font-size:10px;color:var(--muted-foreground);text-align:center;padding:1rem 0;">No zones added
+              yet. Use the form to add contamination zones.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="dashboard-footer">
+      <div class="footer-left">
+        <span>MicroPlastic AI · v2.1.4</span>
+        <span class="footer-dot"></span>
+        <span>YOLOv8 Detection Model</span>
+        <span class="footer-dot"></span>
+        <span>ISO 5667 Compliant</span>
+      </div>
+      <div class="footer-right">
+        <span style="color:var(--muted-foreground)">WebSocket:</span>
+        <span class="footer-ws-status">
+          <span class="footer-ws-dot"></span>
+          Connected · 24ms
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chatbot -->
+  <button class="chatbot-btn closed" id="chatbotBtn" onclick="toggleChat()">
+    <svg class="icon icon-lg" viewBox="0 0 24 24" id="chatbotIcon" style="color:#fff">
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+    </svg>
+  </button>
+  <div class="chat-panel" id="chatPanel" style="display:none;">
+    <div class="chat-header">
+      <div class="chat-header-icon">
+        <svg class="icon icon-base" style="color:var(--primary)" viewBox="0 0 24 24">
+          <path d="M12 8V4H8" />
+          <rect width="16" height="12" x="4" y="8" rx="2" />
+          <path d="M2 14h2" />
+          <path d="M20 14h2" />
+          <path d="M15 13v2" />
+          <path d="M9 13v2" />
+        </svg>
+      </div>
+      <div style="flex:1;">
+        <p style="font-size:0.875rem;font-weight:600;color:var(--foreground)">Research Assistant</p>
+        <p style="font-size:10px;display:flex;align-items:center;gap:0.25rem;color:#15803d">
+          <span
+            style="width:6px;height:6px;border-radius:9999px;background:var(--success);display:inline-block;"></span>
+          Online
+        </p>
+      </div>
+      <button onclick="toggleChat()"
+        style="padding:0.25rem;color:var(--muted-foreground);background:none;border:none;cursor:pointer;">
+        <svg class="icon icon-md" viewBox="0 0 24 24">
+          <polyline points="4 14 10 14 10 20" />
+          <polyline points="20 10 14 10 14 4" />
+          <line x1="14" y1="10" x2="21" y2="3" />
+          <line x1="3" y1="21" x2="10" y2="14" />
+        </svg>
+      </button>
+    </div>
+    <div class="chat-messages scrollbar-ocean" id="chatMessages"></div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Ask about contamination data…"
+        onkeydown="if(event.key==='Enter')sendMessage()">
+      <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">
+        <svg class="icon icon-md" style="color:var(--primary)" viewBox="0 0 24 24">
+          <line x1="22" y1="2" x2="11" y2="13" />
+          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="./main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof initDashboard === "function") initDashboard();
+      if (typeof initChatbot === "function") initChatbot();
+    });
+  </script>
+</body>
+
+</html>
